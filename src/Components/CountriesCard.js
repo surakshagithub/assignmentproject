@@ -1,15 +1,15 @@
-import React from "react";
 import { Container, HStack, Text, Box, Input } from "@chakra-ui/react";
-import { useSelector } from "react-redux";
+// import { useSelector } from "react-redux";
+import Details from "./RecentlyExplored";
 
 function CountriesCard() {
-  const recentlyExploredCountries = useSelector(
-    (state) => state.countries.recentCountries
-  );
+  // const recentlyExploredCountries = useSelector(
+  //   (state) => state.countries.recentCountries
+  // );
   return (
     <>
       <HStack m={50}>
-        <Container
+        {/* <Container
           maxW="xl"
           border="1px"
           borderColor="pink"
@@ -32,6 +32,15 @@ function CountriesCard() {
                 </center>
               );
             })}
+        </Container> */}
+        <Container
+          maxW="xl"
+          border="1px"
+          borderColor="pink"
+          borderRadius="10"
+          height={300}
+        >
+          <Details />
         </Container>
 
         <Container

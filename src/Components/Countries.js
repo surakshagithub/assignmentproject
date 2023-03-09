@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { AgGridReact } from "ag-grid-react";
 import { useDispatch, useSelector } from "react-redux";
 import { useQuery } from "@apollo/client";
-
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 import {
@@ -11,21 +10,33 @@ import {
   setCountries,
 } from "../redux/users/countriesSlice";
 import { Country_Query } from "../Queries/gqlquery";
+import {
+  Button,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  useDisclosure,
+} from "@chakra-ui/react";
+import RecentlyExplored from "./RecentlyExplored";
 
 function Countries(props) {
+  const { isOpen, onOpen, onClose } = useDisclosure();
   // const countriesLists = useSelector((state) => state.countries.countriesList);
   // const [countries, setCountries] = useState([]);
   const dispatch = useDispatch();
   const countries = useSelector((state) => state.countries?.countriesList);
-
-  // remove later
+  // const isModal = useSelector((state) => state.countries.isDetailsModalOpen);
+  // console.log(isModal);
 
   const {
     data: countiesData,
     loading: countriesDataLoading,
     error: countriesDataError,
   } = useQuery(Country_Query);
-
   useEffect(() => {
     let countryList = [];
     if (!countiesData) return;
@@ -58,19 +69,20 @@ function Countries(props) {
       headerName: "Country Detail",
       field: "countryDetail",
       cellRenderer: (param) => {
-        console.log(param);
+        // console.log(param);
 
         return (
           <button
-            onClick={() => {
-              console.log("view country detail of country ", param.data?.code);
-
-              dispatch(setDetailsModalStatus(param.data?.code));
-
-              dispatch(addRecentCountries(param.data));
-            }}
+            onClick={
+              () => {
+                dispatch(setDetailsModalStatus(param.data?.code));
+                dispatch(addRecentCountries(param.data));
+                onOpen();
+              }
+              // console.log("view country detail of country ", param.data?.code);
+            }
           >
-            View Detail
+            View Details
           </button>
         );
       },
@@ -89,7 +101,6 @@ function Countries(props) {
         <pre>{countriesDataError.message}</pre>
       </h2>
     );
-  console.log(".>>>", countries);
   return (
     <>
       <div
@@ -103,6 +114,23 @@ function Countries(props) {
           defaultColDef={defaultColDef}
         ></AgGridReact>
       </div>
+
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Recently Explored Countries:</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            Country Details
+            {/* <RecentlyExplored /> */}
+          </ModalBody>
+          <ModalFooter>
+            <Button colorScheme="blue" mr={3} onClick={onClose}>
+              Close
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </>
   );
 }

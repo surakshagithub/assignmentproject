@@ -1,7 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { createAsyncThunk } from "@reduxjs/toolkit";
-import { useQuery } from "@apollo/client";
-import { Country_Query } from "../../Queries/gqlquery";
+// import { useQuery } from "@apollo/client";
+// import { Country_Query } from "../../Queries/gqlquery";
 
 const initialState = {
   countriesList: [],
@@ -9,12 +8,12 @@ const initialState = {
   isDetailsModalOpen: "",
 };
 
-export const fetchCountries = createAsyncThunk(
-  "countriesList/fetchCountries",
-  async () => {
-    const { data, loading, error } = useQuery(Country_Query);
-  }
-);
+// export const fetchCountries = createAsyncThunk(
+//   "countriesList/fetchCountries",
+//   async () => {
+//     const { data, loading, error } = useQuery(Country_Query);
+//   }
+// );
 
 const countriesSlice = createSlice({
   name: "countriesList",

@@ -1,13 +1,5 @@
 import React from "react";
-import {
-  Container,
-  HStack,
-  Text,
-  Box,
-  Spacer,
-  Button,
-  Input,
-} from "@chakra-ui/react";
+import { Container, HStack, Text, Box, Input } from "@chakra-ui/react";
 
 function CountriesCard() {
   return (

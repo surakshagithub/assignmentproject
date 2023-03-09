@@ -1,5 +1,5 @@
 import React from "react";
-import { Flex, Spacer, Heading, HStack, Box, Button } from "@chakra-ui/react";
+import { Flex, Spacer, HStack, Box, Button } from "@chakra-ui/react";
 import { NavLink } from "react-router-dom";
 
 function Navbar() {

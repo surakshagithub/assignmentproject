@@ -4,13 +4,9 @@ import { useQuery } from "@apollo/client";
 import { Country_Query } from "../../Queries/gqlquery";
 
 const initialState = {
-  countries: {
-    loading: false,
-    countryDetails: [],
-    error: "",
-  },
+  countriesList: [],
   recentCountries: [],
-  isDetailsModalOpen: false,
+  isDetailsModalOpen: "",
 };
 
 export const fetchCountries = createAsyncThunk(
@@ -25,31 +21,33 @@ const countriesSlice = createSlice({
   initialState,
   reducers: {
     setCountries: (state, action) => {
-      state.countries = action.payload;
+      state.countriesList = action.payload;
     },
-    addREcentCountries: (state, action) => {},
+    addRecentCountries: (state, action) => {
+      state.recentCountries.unshift(action.payload);
+    },
     setDetailsModalStatus: (state, action) => {
       state.isDetailsModalOpen = action.payload;
     },
   },
-  extraReducers: (builder) => {
-    builder.addCase(fetchCountries.pending, (state) => {
-      state.countries.loading = true;
-    });
-    builder.addCase(fetchCountries.fulfilled, (state, action) => {
-      state.countries.loading = false;
-      state.countries.countryDetails = action.payload;
-      state.countries.error = "";
-    });
+  // extraReducers: (builder) => {
+  //   builder.addCase(fetchCountries.pending, (state) => {
+  //     state.countries.loading = true;
+  //   });
+  //   builder.addCase(fetchCountries.fulfilled, (state, action) => {
+  //     state.countries.loading = false;
+  //     state.countries.countryDetails = action.payload;
+  //     state.countries.error = "";
+  //   });
 
-    builder.addCase(fetchCountries.rejected, (state, action) => {
-      state.countries.loading = false;
-      state.countries.countryDetails = [];
-      state.countries.error = action.error.message;
-    });
-  },
+  //   builder.addCase(fetchCountries.rejected, (state, action) => {
+  //     state.countries.loading = false;
+  //     state.countries.countryDetails = [];
+  //     state.countries.error = action.error.message;
+  //   });
+  // },
 });
-export const { setCountries, addREcentCountries, countries } =
+export const { setCountries, addRecentCountries, setDetailsModalStatus } =
   countriesSlice.actions;
 
 export default countriesSlice.reducer;

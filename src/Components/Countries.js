@@ -1,36 +1,48 @@
 import React, { useState, useEffect } from "react";
 import { AgGridReact } from "ag-grid-react";
 import { useDispatch, useSelector } from "react-redux";
+import { useQuery } from "@apollo/client";
 
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
-import { fetchCountries } from "../redux/users/countriesSlice";
+import {
+  addRecentCountries,
+  setDetailsModalStatus,
+  setCountries,
+} from "../redux/users/countriesSlice";
+import { Country_Query } from "../Queries/gqlquery";
 
 function Countries(props) {
-  const countriesLists = useSelector((state) => state.countries.countriesList);
-  const [countries, setCountries] = useState([]);
+  // const countriesLists = useSelector((state) => state.countries.countriesList);
+  // const [countries, setCountries] = useState([]);
   const dispatch = useDispatch();
+  const countries = useSelector((state) => state.countries?.countriesList);
+
+  // remove later
+
+  const {
+    data: countiesData,
+    loading: countriesDataLoading,
+    error: countriesDataError,
+  } = useQuery(Country_Query);
 
   useEffect(() => {
-    dispatch(fetchCountries());
     let countryList = [];
-    if (countriesLists)
-      // if (data) {
-      //   if (data.countries) {
-      //     data.countries.forEach((country) => {
-      //       countryList.push({
-      //         ...country,
-      //         languages: country.languages
-      //           .map((language) => {
-      //             return language.name;
-      //           })
-      //           .join(", "),
-      //       });
-      //     });
-      //   }
-      // }
-      setCountries(countryList);
-  }, []);
+    if (!countiesData) return;
+
+    countiesData.countries.forEach((country) => {
+      countryList.push({
+        ...country,
+        languages: country.languages
+          .map((language) => {
+            return language.name;
+          })
+          .join(", "),
+      });
+    });
+
+    dispatch(setCountries(countryList));
+  }, [countiesData, dispatch]);
 
   const [columnDefs] = useState([
     { headerName: "Code", field: "code", headerCheckboxSelection: true },
@@ -42,20 +54,42 @@ function Countries(props) {
       headerName: "Languages",
       field: "languages",
     },
+    {
+      headerName: "Country Detail",
+      field: "countryDetail",
+      cellRenderer: (param) => {
+        console.log(param);
+
+        return (
+          <button
+            onClick={() => {
+              console.log("view country detail of country ", param.data?.code);
+
+              dispatch(setDetailsModalStatus(param.data?.code));
+
+              dispatch(addRecentCountries(param.data));
+            }}
+          >
+            View Detail
+          </button>
+        );
+      },
+    },
   ]);
   const defaultColDef = {
     sortable: true,
     editable: true,
     filter: true,
   };
-  if (loading) return <h1>Loading Please wait</h1>;
+  if (countriesDataLoading) return <h1>Loading Please wait</h1>;
 
-  if (error)
+  if (countriesDataError)
     return (
       <h2>
-        <pre>{error.message}</pre>
+        <pre>{countriesDataError.message}</pre>
       </h2>
     );
+  console.log(".>>>", countries);
   return (
     <>
       <div

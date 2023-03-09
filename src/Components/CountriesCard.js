@@ -1,7 +1,11 @@
 import React from "react";
 import { Container, HStack, Text, Box, Input } from "@chakra-ui/react";
+import { useSelector } from "react-redux";
 
 function CountriesCard() {
+  const recentlyExploredCountries = useSelector(
+    (state) => state.countries.recentCountries
+  );
   return (
     <>
       <HStack m={50}>
@@ -13,33 +17,21 @@ function CountriesCard() {
           height={300}
         >
           <Text my={2}>Recently Explored Countries</Text>
-          <center>
-            <HStack my={5} mx={0}>
-              <Box bg="yellow" w="60%" p={3} color="white" mx={0}>
-                <Text>Nepal</Text>
-              </Box>
-              <Box ml={30} bg="purple" color="white" p={3}>
-                Details
-              </Box>
-            </HStack>
-
-            <HStack my={5}>
-              <Box bg="yellow" w="60%" p={3} color="white" mx={0}>
-                <Text>Nepal</Text>
-              </Box>
-              <Box mx={0} bg="purple" p={3} color="white">
-                Details
-              </Box>
-            </HStack>
-            <HStack my={5}>
-              <Box bg="yellow" w="60%" p={3} color="white" mx={0}>
-                <Text>Nepal</Text>
-              </Box>
-              <Box mx={0} bg="purple" color="white" p={3}>
-                Details
-              </Box>
-            </HStack>
-          </center>
+          {Boolean(recentlyExploredCountries.length) &&
+            recentlyExploredCountries.map((country) => {
+              return (
+                <center>
+                  <HStack my={5}>
+                    <Box bg="blue" w="60%" p={3} color="white" mx={0}>
+                      <Text>{country.name}</Text>
+                    </Box>
+                    <Box mx={0} bg="purple" p={3} color="white">
+                      Details
+                    </Box>
+                  </HStack>
+                </center>
+              );
+            })}
         </Container>
 
         <Container

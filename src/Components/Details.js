@@ -1,29 +1,35 @@
-import { useQuery } from "@apollo/client";
+import { useLazyQuery, useQuery } from "@apollo/client";
 import { gql } from "@apollo/client";
+import { useEffect } from "react";
 import { useSelector } from "react-redux";
 
-function a(code) {
-  const Country_Query = gql`
-    {
-      country(code: "${code}") {
-        code
-        name
-        capital
-        phone
-        currency
-        emoji
-        native
-      }
+const GET_COUNTRY_DETAIL = gql`
+  query countryDetail($code: ID!) {
+    country(code: $code) {
+      code
+      name
+      capital
+      phone
+      currency
+      emoji
+      native
     }
-  `;
-
-  return Country_Query;
-}
+  }
+`;
 
 function Details() {
   const isModal = useSelector((state) => state.countries.isDetailsModalOpen);
-  const { data, loading, error } = useQuery(a(isModal || "NP"));
-  console.log(data);
+  const [fetchCountryDetail, countryDeailQuery] =
+    useLazyQuery(GET_COUNTRY_DETAIL);
+
+  useEffect(() => {
+    if (isModal) {
+      console.log(isModal);
+      fetchCountryDetail({ variables: { code: isModal } });
+    }
+  }, [isModal, fetchCountryDetail]);
+
+  const { data, loading, error } = countryDeailQuery;
 
   if (loading) return <div>Loading</div>;
   if (error) return <div>error</div>;
@@ -31,7 +37,9 @@ function Details() {
   return (
     <div>
       <ul>
-        <li>{data.country.name}</li>
+        <li>{data?.country?.name}</li>
+        <li>{data?.country?.code}</li>
+        <li>{data?.country?.currency}</li>
       </ul>
     </div>
   );

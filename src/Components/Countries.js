@@ -22,13 +22,15 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import RecentlyExplored from "./RecentlyExplored";
+import Details from "./Details";
 
 function Countries(props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const countries = useSelector((state) => state.countries?.countriesList);
+
   // const countriesLists = useSelector((state) => state.countries.countriesList);
   // const [countries, setCountries] = useState([]);
   const dispatch = useDispatch();
-  const countries = useSelector((state) => state.countries?.countriesList);
   // const isModal = useSelector((state) => state.countries.isDetailsModalOpen);
   // console.log(isModal);
 
@@ -114,23 +116,6 @@ function Countries(props) {
           defaultColDef={defaultColDef}
         ></AgGridReact>
       </div>
-
-      <Modal isOpen={isOpen} onClose={onClose}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Recently Explored Countries:</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            Country Details
-            {/* <RecentlyExplored /> */}
-          </ModalBody>
-          <ModalFooter>
-            <Button colorScheme="blue" mr={3} onClick={onClose}>
-              Close
-            </Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
     </>
   );
 }

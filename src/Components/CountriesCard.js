@@ -1,6 +1,6 @@
 import { Container, HStack, Text, Box, Input } from "@chakra-ui/react";
 // import { useSelector } from "react-redux";
-import Details from "./RecentlyExplored";
+import RecentlyExplored from "./RecentlyExplored";
 
 function CountriesCard() {
   // const recentlyExploredCountries = useSelector(
@@ -40,7 +40,7 @@ function CountriesCard() {
           borderRadius="10"
           height={300}
         >
-          <Details />
+          <RecentlyExplored />
         </Container>
 
         <Container

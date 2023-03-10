@@ -1,7 +1,9 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { HStack, Text, Box } from "@chakra-ui/react";
+import { setDetailsModalStatus } from "../redux/users/countriesSlice";
 
 function RecentlyExplored() {
+  const dispatch = useDispatch();
   const recentlyExploredCountries = useSelector(
     (state) => state.countries.recentCountries
   );
@@ -17,7 +19,15 @@ function RecentlyExplored() {
                 <Box bg="blue" w="60%" p={3} color="white" mx={0}>
                   <Text>{country.name}</Text>
                 </Box>
-                <Box mx={0} bg="purple" p={3} color="white">
+                <Box
+                  mx={0}
+                  bg="purple"
+                  p={3}
+                  color="white"
+                  onClick={() => {
+                    dispatch(setDetailsModalStatus(country.code));
+                  }}
+                >
                   Details
                 </Box>
               </HStack>

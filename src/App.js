@@ -4,11 +4,10 @@ import Home from "./Components/Home";
 import Nopage from "./Components/Nopage";
 import Navbar from "./Components/Navbar";
 import Countries from "./Components/Countries";
-import Details from "./Components/Details";
-import { useDisclosure } from "@chakra-ui/react";
 import { useDispatch, useSelector } from "react-redux";
 import CountryDetailModal from "./Components/CountryDetailModal";
 import { setDetailsModalStatus } from "./redux/users/countriesSlice";
+import Toggle from "./Components/Toggle";
 
 function App() {
   const dispatch = useDispatch();
@@ -18,6 +17,7 @@ function App() {
     <>
       <BrowserRouter>
         <Navbar />
+        <Toggle />
         <Routes>
           <Route path="/" element={<Home />} />
 

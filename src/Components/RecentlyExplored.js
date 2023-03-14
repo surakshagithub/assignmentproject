@@ -20,6 +20,7 @@ function RecentlyExplored() {
                   <Text>{country.name}</Text>
                 </Box>
                 <Box
+                  className="Box"
                   mx={0}
                   bg="purple"
                   p={3}

@@ -1,3 +1,9 @@
 .hoverEffect:hover {
   background-color: rgb(180, 180, 43);
 }
+.Box {
+  cursor: pointer;
+}
+.container {
+  min-height: 300px;
+}

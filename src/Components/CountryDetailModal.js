@@ -1,4 +1,3 @@
-import React from "react";
 import {
   Button,
   Modal,
@@ -8,10 +7,10 @@ import {
   ModalFooter,
   ModalBody,
   ModalCloseButton,
-  useDisclosure,
+  Heading,
 } from "@chakra-ui/react";
-import { useDispatch } from "react-redux";
-import { setDetailsModalStatus } from "../redux/users/countriesSlice";
+// import { useDispatch } from "react-redux";
+// import { setDetailsModalStatus } from "../redux/users/countriesSlice";
 import Details from "./Details";
 
 export default function CountryDetailModal(props) {
@@ -25,7 +24,9 @@ export default function CountryDetailModal(props) {
     >
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>Country Details</ModalHeader>
+        <ModalHeader>
+          <Heading color="ThreeDDarkShadow">Country Details</Heading>
+        </ModalHeader>
         <ModalCloseButton />
         <ModalBody>
           <Details />
